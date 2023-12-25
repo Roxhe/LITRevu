@@ -7,5 +7,8 @@
     <body>
         <h1>LITRevu</h1>
         {% block content %}{% endblock content %}
+        {%  if user.is_authenticated %}
+            <p>Vous êtes connecté. <a href="{% url 'logout' %}">Se déconnecter</a></p>
+        {% endif %}
     </body>
 </html>
