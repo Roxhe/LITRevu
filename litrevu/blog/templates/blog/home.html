@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>Page d'accueil</p>
+    <h2>Fil principal</h2>
+    {% for ticket in tickets %}
+    <a href="{% url 'view_ticket' ticket.id %}">
+        <h4>Billet : {{ ticket.title }}</h4>
+        <img src="{{ ticket.photo.image.url }}">
+    </a>
+{% endfor %}
 {% endblock content %}

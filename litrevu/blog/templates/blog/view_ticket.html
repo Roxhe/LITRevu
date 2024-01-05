@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ ticket.title }}</h2>
+    <img src="{{ ticket.photo.image.url }}">
+    <p>{{ ticket.photo.caption }}</p>
+    <p>{{ ticket.content }}</p>
+<a href="{{ ticket.get_absolute_url }}">Supprimer</a>
+
+{% endblock content %}

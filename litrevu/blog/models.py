@@ -3,13 +3,21 @@ from django.conf import settings
 from django.db import models
 
 
+class Photo(models.Model):
+    image = models.ImageField()
+    caption = models.CharField(max_length=128, blank=True)
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
-    #photo =
+    photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     #pined_review =
+
 
 class Review(models.Model):
     title = models.CharField(max_length=128)
@@ -19,3 +27,6 @@ class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     #is_pined =
+
+
+
