@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Inscription</h2>
+<div class="flex flex-col items-center justify-center h-screen">
+    <h2 class="text-2xl font-semibold text-violet-800  mb-4">Inscription</h2>
     {% if form.errors %}
         {{ form.errors }}
     {% endif %}
-    <form method="post">
+    <form method="post" class="text-center">
         {{ form.as_p }}
         {% csrf_token %}
-        <button type="submit" >S’inscrire</button>
+        <button class="mt-1 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border-b-4 border-violet-700 hover:border-violet-500 rounded" type="submit">S’inscrire</button>
     </form>
-    <a href="{% url 'login' %}">Retour</a>
+    <a class="mt-4 text-violet-500 hover:text-violet-700" href="{% url 'login' %}">Retour</a>
+</div>
 {% endblock content %}
