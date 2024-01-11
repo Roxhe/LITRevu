@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Écrire une Revue</h2>
+    <form method="post" enctype="multipart/form-data">
+        {{ review_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Publier</button>
+    </form>
+ <a href="{% url 'view_ticket' ticket_id=ticket.id %}" class="btn btn-secondary">Retour au ticket</a>
+{% endblock content %}

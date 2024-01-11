@@ -16,7 +16,6 @@ class Ticket(models.Model):
     photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    #pined_review =
 
 
 class Review(models.Model):
@@ -26,7 +25,3 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    #is_pined =
-
-
-

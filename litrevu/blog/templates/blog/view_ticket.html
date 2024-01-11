@@ -3,7 +3,8 @@
     <h2>{{ ticket.title }}</h2>
     <img src="{{ ticket.photo.image.url }}">
     <p>{{ ticket.photo.caption }}</p>
-    <p>{{ ticket.content }}</p>
-<a href="{{ ticket.get_absolute_url }}">Supprimer</a>
+    <p>{{ ticket.description }}</p>
+
+<a href="{% url 'create_review' ticket_id=ticket.id %}" class="btn btn-primary">Créer une revue</a>
 
 {% endblock content %}
