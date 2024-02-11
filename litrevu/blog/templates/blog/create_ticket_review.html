@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex flex-col items-center space-y-4">
+    <h2 class="text-2xl text-violet-800 mb-4">Écrire un ticket puis une revue associée</h2>
+    <form method="post" enctype="multipart/form-data">
+        {{ ticket_form.as_p }}
+        {{ photo_form.as_p }}
+        {% csrf_token %}
+        <button class="block mt-1 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border-b-4
+        border-violet-700 hover:border-violet-500 rounded" type="submit" >Publier votre ticket puis être rediriger pour la création de la revue associée</button>
+    </form>
+</div>
+{% endblock content %}

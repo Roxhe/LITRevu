@@ -6,6 +6,12 @@ User = get_user_model()
 
 
 class FollowUsersForm(forms.ModelForm):
+    follows = forms.ModelMultipleChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
     class Meta:
         model = User
         fields = ['follows']

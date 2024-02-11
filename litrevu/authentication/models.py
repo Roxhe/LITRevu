@@ -7,4 +7,4 @@ class User(AbstractUser):
     follows = models.ManyToManyField('self', symmetrical=False, verbose_name='suit')
 
     def __str__(self):
-        return self.email
+        return self.username

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col items-center space-y-4">
+    <h1 class="text-2xl font-bold text-red-500 mb-4">Supprimer votre ticket</h1>
+
+    {% if request.method == 'POST' %}
+    <p>Le ticket a été supprimé avec succès.</p>
+    <a href="{% url 'home' %}">Retour à la page d'accueil</a>
+    {% else %}
+    <p>Êtes-vous sûr de vouloir supprimer votre ticket ?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="block mt-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded" type="submit">
+            Confirmer la suppression
+        </button>
+    </form>
+
+    <a href="{% url 'home' %}">Annuler</a>
+</div>
+    {% endif %}
+{% endblock %}

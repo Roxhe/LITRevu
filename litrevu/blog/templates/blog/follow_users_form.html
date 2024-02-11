@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Suivre des utilisateurs</h2>
+<div class="flex flex-col items-center space-y-4">
+    <h2 class="text-2xl text-violet-800 mb-4">Suivre des utilisateurs</h2>
     <form method="post">
         {{ follow_user_form.as_p }}
         {% csrf_token %}
         <button type="submit" >Confirmer</button>
     </form>
 
+        <h3>Utilisateurs suivis</h3>
+    <ul>
+        {% for user in following %}
+            <li>{{ user.username }}</li>
+        {% empty %}
+            <li>Aucun utilisateur suivi.</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock content %}

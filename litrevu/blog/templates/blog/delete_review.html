@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col items-center space-y-4">
+    <h1 class="text-2xl text-red-800 mb-4">Supprimer votre critique ?</h1>
+
+    {% if request.method == 'POST' %}
+    <p>La critique a été supprimé avec succès.</p>
+    <a href="{% url 'home' %}">Retour à la page d'accueil</a>
+    {% else %}
+    <p>Êtes-vous sûr de vouloir supprimer votre critique ?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirmer la suppression">
+    </form>
+
+    <a href="{% url 'home' %}">Annuler</a>
+</div>
+    {% endif %}
+{% endblock %}

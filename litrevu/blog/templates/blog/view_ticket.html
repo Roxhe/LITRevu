@@ -1,10 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>{{ ticket.title }}</h2>
-    <img src="{{ ticket.photo.image.url }}">
-    <p>{{ ticket.photo.caption }}</p>
-    <p>{{ ticket.description }}</p>
+<div class="flex flex-col items-center space-y-4">
+    <div class="flex space-x-4">
+        <div class="w-1/5">
+            <img src="{{ ticket.photo.image.url }}" alt="{{ ticket.title }}">
+        </div>
+        <div class="w-2/3">
+            <h2 class="text-2xl text-violet-800 mb-4">{{ ticket.title }}</h2>
+            <p>{{ ticket.description }}</p>
+        </div>
+    </div>
 
-<a href="{% url 'create_review' ticket_id=ticket.id %}" class="btn btn-primary">Créer une revue</a>
+    <div class="mt-4">
+        {% if ticket.has_review == False %}
+        <a href="{% url 'create_review' ticket_id=ticket.id %}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded">Créer une revue</a>
+        {% endif %}
+
+        {% if user == ticket.user %}
+        <div class="flex space-x-4">
+            <a href="{% url 'edit_ticket' ticket_id=ticket.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Editer votre Ticket</a>
+            <a href="{% url 'delete_ticket' ticket_id=ticket.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Supprimer votre Ticket</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
 
 {% endblock content %}

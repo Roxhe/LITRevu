@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex flex-col items-center space-y-4">
+<h1 class="text-2xl text-violet-800 ">Bienvenue, {{ user_name }} !</h1>
+    <a class="inline-block mt-1 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border-b-4 border-violet-700 hover:border-violet-500 rounded" href="{% url 'create_ticket_review' %}" >Créer un ticket + revue</a>
+<h4 class="text-1xl text-violet-800 mb-4">Ticket sans revue</h4>
+<div class="flex flex-col items-center space-y-4">
+    {% for ticket in tickets %}
+        {% if not ticket.has_review %}
+            <a href="{% url 'view_ticket' ticket.id %}" class="text-center">
+                <div class="w-1/2 mx-auto bg-white p-4 rounded-lg shadow-md flex items-center">
+                    <img src="{{ ticket.photo.image.url }}" alt="{{ ticket.title }}" class="w-1/3 h-auto">
+                    <div class="ml-4">
+                    <h4 class="text-lg font-semibold mb-2">{{ ticket.title }}</h4>
+                    <p>{{ ticket.description }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<h4 class="text-1xl text-violet-800 mb-4">Ticket avec revue</h4>
+<div class="flex flex-col items-center space-y-4">
+    {% for ticket in tickets %}
+        {% if ticket.has_review %}
+
+            <a href="{% url 'view_ticket' ticket.id %}" class="text-center">
+                <div class="w-1/2 mx-auto bg-white p-4 rounded-lg shadow-md flex flex-col items-center">
+                    {% for review in ticket.review_set.all %}
+                        <div class="review w-full">
+                            <h4 class="text-lg font-semibold mb-2">{{ review.title }}</h4>
+                            <p>{{ review.description }}</p>
+                            <p>Note: {{ review.rating }}</p>
+                        </div>
+                    {% endfor %}
+
+                    <a href="{% url 'view_ticket' ticket.id %}" class="text-center w-full">
+                        <div class="flex items-center w-full">
+                            <img src="{{ ticket.photo.image.url }}" alt="{{ ticket.title }}" class="w-1/3 h-auto">
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold mb-2">{{ ticket.title }}</h4>
+                                <p>{{ ticket.description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </a>
+        {% endif %}
+    {% endfor %}
+
+
+</div>
+</div>
+{% endblock content %}
