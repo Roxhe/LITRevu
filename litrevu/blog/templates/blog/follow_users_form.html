@@ -5,16 +5,16 @@
     <form method="post">
         {{ follow_user_form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Confirmer</button>
+        <button class="block mt-1 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border-b-4 border-violet-700 hover:border-violet-500 rounded" type="submit" >Confirmer</button>
     </form>
 
         <h3>Utilisateurs suivis</h3>
-    <ul>
-        {% for user in following %}
-            <li>{{ user.username }}</li>
-        {% empty %}
-            <li>Aucun utilisateur suivi.</li>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for user in following %}
+                <li>{{ user.username }} <a class="text-red-500" href="?unfollow={{ user.id }}">Se désabonner</a></li>
+            {% empty %}
+                <li>Aucun utilisateur suivi.</li>
+            {% endfor %}
+        </ul>
 </div>
 {% endblock content %}

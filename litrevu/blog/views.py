@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, ExpressionWrapper, fields, Case, When
 from django.urls import reverse
-
+from authentication.models import User
 
 from . import forms, models
 
@@ -35,18 +35,6 @@ def home(request):
     context = {'tickets': tickets}
     return render(request, 'blog/home.html', context)
 
-
-@login_required
-def follow_users(request):
-    follow_user_form = forms.FollowUsersForm(instance=request.user)
-    following = request.user.follows.all()
-    if request.method == 'POST':
-        form = forms.FollowUsersForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    return render(request, 'blog/follow_users_form.html',
-                  context={'follow_user_form': follow_user_form,  'following': following,})
 
 
 @login_required
@@ -87,6 +75,7 @@ def view_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     return render(request, 'blog/view_ticket.html', {'ticket': ticket})
 
+
 @login_required
 def edit_ticket(request, ticket_id):
     ticket = models.Ticket.objects.get(pk=ticket_id)
@@ -112,6 +101,7 @@ def edit_ticket(request, ticket_id):
     return render(request, 'blog/edit_ticket.html', context={'ticket_form': ticket_form, 'photo_form': photo_form, 'ticket': ticket})
 
 
+@login_required
 def delete_ticket(request, ticket_id):
     ticket = models.Ticket.objects.get(pk=ticket_id)
     if request.user == ticket.user:
@@ -124,6 +114,7 @@ def delete_ticket(request, ticket_id):
     return render(request, 'blog/delete_ticket.html', {'ticket': ticket})
 
 
+@login_required
 def create_review(request, ticket_id):
     ticket = models.Ticket.objects.get(pk=ticket_id)
     if models.Review.objects.filter(ticket=ticket).exists():
@@ -144,6 +135,7 @@ def create_review(request, ticket_id):
     return render(request, 'blog/create_review.html', context={'review_form': review_form, 'ticket': ticket, })
 
 
+@login_required
 def delete_review(request, review_id):
     review = get_object_or_404(models.Review, id=review_id)
     if request.user == review.user:
@@ -159,11 +151,13 @@ def delete_review(request, review_id):
     return render(request, 'blog/delete_review.html', {'review': review})
 
 
+@login_required
 def view_review(request, review_id):
     review = get_object_or_404(models.Review, id=review_id)
     return render(request, 'blog/view_review.html', {'review': review})
 
 
+@login_required
 def create_ticket_review(request):
     ticket_form = forms.TicketForm()
     photo_form = forms.PhotoForm()
@@ -182,3 +176,24 @@ def create_ticket_review(request):
             return redirect(reverse('create_review', kwargs={'ticket_id': ticket.id}))
 
     return render(request, 'blog/create_ticket_review.html', context={'ticket_form': ticket_form, 'photo_form': photo_form})
+
+
+@login_required
+def follow_users(request):
+    following = request.user.follows.all()
+    if request.method == 'POST':
+        follow_user_form = forms.FollowUserForm(request.POST)
+        if follow_user_form.is_valid():
+            username = follow_user_form.cleaned_data['username']
+            user_to_follow = User.objects.get(username=username)
+            request.user.follows.add(user_to_follow)
+            return redirect('home')
+
+    if 'unfollow' in request.GET:
+        user_to_unfollow_id = request.GET['unfollow']
+        user_to_unfollow = User.objects.get(id=user_to_unfollow_id)
+        request.user.follows.remove(user_to_unfollow)
+        return redirect('home')
+
+    follow_user_form = forms.FollowUserForm()
+    return render(request, 'blog/follow_users_form.html', {'follow_user_form': follow_user_form, 'following': following,})

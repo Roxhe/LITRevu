@@ -5,16 +5,14 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class FollowUsersForm(forms.ModelForm):
-    follows = forms.ModelMultipleChoiceField(
-        queryset=User.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-    )
+class FollowUserForm(forms.Form):
+    username = forms.CharField(label="Nom d'utilisateur à suivre")
 
-    class Meta:
-        model = User
-        fields = ['follows']
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Cet utilisateur n'existe pas.")
+        return username
 
 
 class PhotoForm(forms.ModelForm):
