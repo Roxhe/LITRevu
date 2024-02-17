@@ -36,7 +36,7 @@ Lancez votre navigateur et rendez vous sur l'adresse `http://127.0.0.1:8000`
 
 Vous pouvez soit vous connecter aux deux comptes pré-existant suivant : \
 Nom d'utilisateur : `moonlight` Mot de passe : `Moonlight1` \
-Nom d'utilisateur : `Sunlight` Mot de passe : `Sunlight1` \
+Nom d'utilisateur : `Sunlight` Mot de passe : `Sunlight1` 
 
 Ou bien créer un compte vierge.
 
