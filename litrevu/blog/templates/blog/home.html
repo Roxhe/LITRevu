@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      <div class="flex flex-col items-center space-y-4">
+          <h2 class="text-2xl text-violet-800">Flux</h2>
+    {% for ticket in tickets %}
+      {% if not ticket.has_review %}
+        <a href="{% url 'view_ticket' ticket.id %}" class="text-center">
+          <div class="w-1/2 mx-auto bg-white p-4 rounded-lg shadow-md flex items-center">
+            <img src="{{ ticket.photo.image.url }}" alt="{{ ticket.title }}" class="w-1/3">
+            <div class="ml-4">
+              <h4 class="text-lg font-semibold mb-2">{{ ticket.title }}</h4>
+              <p>{{ ticket.description }}</p>
+              <p>Date de création : {{ ticket.date }}</p>
+              <p>{{ ticket.user }}</p>
+            </div>
+          </div>
+        </a>
+      {% else %}
+          <a href="{% url 'view_ticket' ticket.id %}" class="text-center">
+                <div class="w-1/2 mx-auto bg-white p-4 rounded-lg shadow-md flex flex-col items-center">
+                    {% for review in ticket.review_set.all %}
+                        <div class="review w-full">
+                            <h4 class="text-lg font-semibold mb-2">{{ review.title }}</h4>
+                            <p>{{ review.description }}</p>
+                            <p>Note: {{ review.rating }}/5</p>
+                            <p>Date de création : {{ review.date }}</p>
+                            <p>{{ review.user }}</p>
+                        </div>
+                    {% endfor %}
+
+                    <a href="{% url 'view_ticket' ticket.id %}" class="text-center w-full">
+                        <div class="flex items-center w-full">
+                            <img src="{{ ticket.photo.image.url }}" alt="{{ ticket.title }}" class="w-1/3 h-auto">
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold mb-2">{{ ticket.title }}</h4>
+                                <p>{{ ticket.description }}</p>
+                                <p>Date de création : {{ ticket.date }}</p>
+                                <p>{{ ticket.user }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </a>
+      {% endif %}
+    {% endfor %}
+    </div>
+
+{% endblock %}
